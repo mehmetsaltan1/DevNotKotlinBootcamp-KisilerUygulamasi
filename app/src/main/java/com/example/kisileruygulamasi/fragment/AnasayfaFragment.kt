@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.kisileruygulamasi.R
 import com.example.kisileruygulamasi.adapter.KisilerAdapter
 import com.example.kisileruygulamasi.databinding.FragmentAnasayfaBinding
@@ -26,12 +27,20 @@ class AnasayfaFragment : Fragment(), SearchView.OnQueryTextListener {
         tasarim = FragmentAnasayfaBinding.inflate(inflater, container, false)
         tasarim.toolbarAnasayfa.title = "Kişiler"
         (activity as AppCompatActivity).setSupportActionBar(tasarim.toolbarAnasayfa)
-        tasarim.rv.layoutManager = LinearLayoutManager(requireContext())
+       tasarim.rv.layoutManager = LinearLayoutManager(requireContext())
+        //   tasarim.rv.layoutManager = StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL)
+        val kisilerListesi = ArrayList<Kisiler>()
+        val k1 = Kisiler(1,"Mehmet","11111111")
+        val k2 = Kisiler(2,"Zeynep","22222222")
+        val k3 = Kisiler(3,"Serçe","33333333")
+        kisilerListesi.add(k1)
+        kisilerListesi.add(k2)
+        kisilerListesi.add(k3)
+        adapter = KisilerAdapter(requireContext(),kisilerListesi)
+        tasarim.rv.adapter = adapter
         tasarim.fab.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.kisiKayitGecis)
-            /* val kisi = Kisiler(1, "Ahmet", "11111")
-             val gecis = AnasayfaFragmentDirections.kisiDetayGecis(kisi)
-             Navigation.findNavController(it).navigate(gecis)*/
+
         }
         return tasarim.root
     }
