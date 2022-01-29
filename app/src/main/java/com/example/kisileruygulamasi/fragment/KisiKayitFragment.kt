@@ -7,13 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import com.example.kisileruygulamasi.R
 import com.example.kisileruygulamasi.databinding.FragmentKisiKayitBinding
+import com.example.kisileruygulamasi.viewmodel.KisiKayitFragmentViewModel
 
 
 class KisiKayitFragment : Fragment() {
     private lateinit var tasarim: FragmentKisiKayitBinding
-
+    private lateinit var viewModel:KisiKayitFragmentViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -25,7 +27,13 @@ class KisiKayitFragment : Fragment() {
         return tasarim.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val tempViewModel:KisiKayitFragmentViewModel by viewModels()
+        viewModel = tempViewModel
+    }
+
     fun buttonKaydetTikla(kisi_ad: String, kisi_tel: String) {
-        Log.e("Kişi Kayıt", "$kisi_ad-$kisi_tel")
+        viewModel.kayit(kisi_ad,kisi_tel)
     }
 }
