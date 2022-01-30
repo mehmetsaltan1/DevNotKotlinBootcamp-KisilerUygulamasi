@@ -13,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.kisileruygulamasi.R
 import com.example.kisileruygulamasi.databinding.FragmentKisiDetayBinding
 import com.example.kisileruygulamasi.viewmodel.KisiDetayFragmentViewModel
+import com.example.kisileruygulamasi.viewmodel.KisiDetayVMF
 
 
 class KisiDetayFragment : Fragment() {
@@ -38,7 +39,9 @@ class KisiDetayFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val tempViewModel : KisiDetayFragmentViewModel by viewModels()
+        val tempViewModel : KisiDetayFragmentViewModel by viewModels(){
+            KisiDetayVMF(requireActivity().application)
+        }
         viewModel = tempViewModel
     }
 

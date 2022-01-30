@@ -22,20 +22,32 @@ class KisilerDaoRepository(var application: Application) {
 
     }
     fun kisiKayit(kisi_ad: String, kisi_tel: String) {
-        Log.e("Kişi Kayıt", "$kisi_ad-$kisi_tel")
+        val job = CoroutineScope(Dispatchers.Main).launch {
+            val yeniKisi = Kisiler(0,kisi_ad,kisi_tel)
+            vt.kisilerDao().kisiEkle(yeniKisi)
+        }
 
     }
 
     fun kisiGuncelle(kisi_id: Int, kisi_ad: String, kisi_tel: String) {
-        Log.e("Kişi Güncelle", "$kisi_id - $kisi_ad - $kisi_tel")
+        val job = CoroutineScope(Dispatchers.Main).launch {
+            val guncellenenKisi = Kisiler(kisi_id,kisi_ad,kisi_tel)
+            vt.kisilerDao().kisiGuncelle(guncellenenKisi)
+        }
     }
 
     fun kisiAra(aramaKelimesi: String) {
-        Log.e("Kişi Ara", aramaKelimesi)
+        val job = CoroutineScope(Dispatchers.Main).launch {
+            kisilerListesi.value = vt.kisilerDao().kisiAra(aramaKelimesi)
+        }
     }
 
     fun kisiSil(kisi_id: Int) {
-        Log.e("Kişi Sil", kisi_id.toString())
+        val job = CoroutineScope(Dispatchers.Main).launch {
+            val silinecekKisi = Kisiler(kisi_id,"","")
+            vt.kisilerDao().kisiSil(silinecekKisi)
+            tumKisileriAl()
+        }
     }
     fun tumKisileriAl(){
         val job = CoroutineScope(Dispatchers.Main).launch {
