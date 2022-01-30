@@ -1,13 +1,20 @@
 package com.example.kisileruygulamasi.repo
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.kisileruygulamasi.entity.Kisiler
+import com.example.kisileruygulamasi.room.Veritabani
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class KisilerDaoRepository {
+class KisilerDaoRepository(var application: Application) {
     var kisilerListesi : MutableLiveData<List<Kisiler>>
+    var vt:Veritabani
     init {
         kisilerListesi = MutableLiveData()
+        vt = Veritabani.veritabaniErisim(application.applicationContext)!!
     }
 
     fun kisileriGetir():MutableLiveData<List<Kisiler>>{
@@ -31,13 +38,8 @@ class KisilerDaoRepository {
         Log.e("Kişi Sil", kisi_id.toString())
     }
     fun tumKisileriAl(){
-        val liste = ArrayList<Kisiler>()
-        val k1 = Kisiler(1, "Mehmet", "11111111")
-        val k2 = Kisiler(2, "Zeynep", "22222222")
-        val k3 = Kisiler(3, "Serçe", "33333333")
-        liste.add(k1)
-        liste.add(k2)
-        liste.add(k3)
-        kisilerListesi.value = liste
+        val job = CoroutineScope(Dispatchers.Main).launch {
+            kisilerListesi.value = vt.kisilerDao().tumKisiler()
+        }
     }
 }

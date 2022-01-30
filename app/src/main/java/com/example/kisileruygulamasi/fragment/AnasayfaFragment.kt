@@ -17,6 +17,7 @@ import com.example.kisileruygulamasi.adapter.KisilerAdapter
 import com.example.kisileruygulamasi.databinding.FragmentAnasayfaBinding
 import com.example.kisileruygulamasi.entity.Kisiler
 import com.example.kisileruygulamasi.viewmodel.AnasayfaFragmentViewModel
+import com.example.kisileruygulamasi.viewmodel.AnasayfaVMF
 
 
 class AnasayfaFragment : Fragment(), SearchView.OnQueryTextListener {
@@ -49,9 +50,11 @@ class AnasayfaFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val tempViewModel : AnasayfaFragmentViewModel by viewModels()
-        viewModel = tempViewModel
         setHasOptionsMenu(true)
+        val tempViewModel : AnasayfaFragmentViewModel by viewModels(){
+            AnasayfaVMF(requireActivity().application)
+        }
+        viewModel = tempViewModel
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
